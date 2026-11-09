@@ -186,6 +186,7 @@ def check_upstream():
 
 
 
+PUBLISH_EXCLUDE = ("00-源分析", "01-待办", "部署-lifeOS/")   # 内部工作笔记，不进公开仓库
 CRED_NAME = "github-lifeos"
 CREDMAN = r"D:\DSH_HOME\skills\credential-manager\scripts\credman.ps1"
 
@@ -217,7 +218,10 @@ def sync_lifeos(repo_path, do_push):
 
     # 1) kb/ = 本包的全部跟踪文件（跳过 .github，workflow 只认仓库根）
     out = run(["git", "-C", str(PKG), "-c", "core.quotepath=false", "ls-files", "-z"]).stdout
-    files = [f for f in out.split("\0") if f.strip() and not f.startswith(".github/")]
+    allf = [f for f in out.split("\0") if f.strip()]
+    files = [f for f in allf if not f.startswith(".github/")
+             and not any(f.startswith(x) for x in PUBLISH_EXCLUDE)]
+    internal = [f for f in allf if any(f.startswith(x) for x in PUBLISH_EXCLUDE)]
     kb = repo / "kb"
     copied = 0
     for rel in files:
@@ -226,6 +230,18 @@ def sync_lifeos(repo_path, do_push):
         shutil.copy2(src, dst)
         copied += 1
     print(f"  kb/ 写入 {copied} 个文件")
+    if internal:
+        names = ", ".join(sorted({x.split("/")[0] for x in internal}))
+        print(f"  跳过 {len(internal)} 个内部文件（不公开）：{names}")
+
+    # 根目录 CI 只对维护者有用，不进公开仓库
+    ci = repo / ".github" / "workflows" / "kb-selfcheck.yml"
+    if ci.is_file():
+        ci.unlink()
+        print("  移除根目录 CI（kb-selfcheck.yml）")
+        for d in (ci.parent, ci.parent.parent):
+            if d.is_dir() and not any(d.iterdir()):
+                d.rmdir()
 
     # 2) 清理 kb/ 里已从本包删除的旧文件
     tracked_kb = run(["git", "-C", str(repo), "-c", "core.quotepath=false", "ls-files", "-z", "kb"]).stdout
