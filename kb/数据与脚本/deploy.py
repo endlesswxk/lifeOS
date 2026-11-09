@@ -4,7 +4,7 @@
 用法：
     python 数据与脚本/deploy.py                  # 重建 + 自检 + 提交（不推送）
     python 数据与脚本/deploy.py --push           # 再加推送（含 tag）
-    python 数据与脚本/deploy.py --push --verify https://endlesswxk.github.io/health-kb/
+    python 数据与脚本/deploy.py --push --verify https://endlesswxk.github.io/lifeOS/kb/site/
     python 数据与脚本/deploy.py --version 1.3 --push   # 先升版本号再跑
     python 数据与脚本/deploy.py --upstream       # 只检查上游原始有没有更新
     python 数据与脚本/deploy.py --sync-lifeos    # 同步 kb/ + sw.js 到 lifeOS 仓库并推送
@@ -253,6 +253,10 @@ def sync_lifeos(repo_path, do_push):
             removed += 1
     if removed:
         print(f"  kb/ 删除 {removed} 个已不存在的旧文件")
+    # 顺手清空目录残渣
+    for d in sorted([x for x in kb.rglob("*") if x.is_dir()], key=lambda x: -len(x.parts)):
+        if not any(d.iterdir()):
+            d.rmdir()
 
     # 3) kb/index.html 跳转页（静态，永不与 site/ 不同步）
     (kb / "index.html").write_text(REDIRECT_PAGE, encoding="utf-8")
@@ -264,13 +268,19 @@ def sync_lifeos(repo_path, do_push):
         ver = re.search(r"const CACHE = '([^']+)'", sw.read_text(encoding="utf-8"))
         print(f"  sw.js → {ver.group(1) if ver else '?'}")
 
-    # 5) 重新生成 app 里的清单（含跳知识库的链接）
+    # 5) 仓库首页 README（GitHub 上没有它会显示「Add a README」）
+    home = PKG / "部署-lifeOS" / "README-仓库首页.md"
+    if home.is_file():
+        shutil.copy2(home, repo / "README.md")
+        print("  README.md → 仓库首页")
+
+    # 6) 重新生成 app 里的清单（含跳知识库的链接）
     app = repo / "index.html"
     if app.is_file():
         r = run([PY, str(ROOT / "build_app.py"), "--app", str(app)], check=False)
         print("  " + (r.stdout or "").strip().replace("\n", "\n  "))
 
-    # 6) 提交
+    # 7) 提交
     st = run(["git", "-C", str(repo), "status", "--porcelain"]).stdout.strip()
     if not st:
         print("  没有变化，跳过提交")

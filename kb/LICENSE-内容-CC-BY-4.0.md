@@ -19,7 +19,7 @@
 - **署名**：注明来源、附上本许可证链接、并说明是否做了修改。
   建议这样写：
 
-  > 内容整理自「个人健康知识库」（https://github.com/endlesswxk/health-kb），
+  > 内容整理自「个人健康知识库」（https://github.com/endlesswxk/lifeOS/tree/main/kb），
   > 按 CC BY 4.0 使用；本版本修改了部分条目。
 
 - **不增加额外限制**：不能通过法律条款或技术措施，限制他人做许可证允许的事
