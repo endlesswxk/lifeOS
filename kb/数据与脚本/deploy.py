@@ -6,7 +6,8 @@
     python 数据与脚本/deploy.py --push           # 再加推送（含 tag）
     python 数据与脚本/deploy.py --push --verify https://endlesswxk.github.io/health-kb/
     python 数据与脚本/deploy.py --version 1.3 --push   # 先升版本号再跑
-    python 数据与脚本/deploy.py --upstream       # 只检查上游原文有没有更新
+    python 数据与脚本/deploy.py --upstream       # 只检查上游原始有没有更新
+    python 数据与脚本/deploy.py --sync-lifeos    # 同步 kb/ + sw.js 到 lifeOS 仓库并推送
 
 设计约定：
   * 只用标准库；token 不进本脚本，靠 git 自己的凭据助手（见 05-持续更新.md）
@@ -17,6 +18,7 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import re
 import subprocess
 import sys
 import urllib.request
@@ -183,6 +185,113 @@ def check_upstream():
     print("\n  下一步：跑 `python 数据与脚本/deploy.py` 重建引用，再看 diff 决定要不要改卡。")
 
 
+
+LIFEOS_DEFAULT = r"E:\SLACK-AI\lifeOS"
+
+
+def sync_lifeos(repo_path, do_push):
+    """把知识库同步进 lifeOS 仓库：kb/ + kb/index.html 跳转页 + sw.js，并重生成 app 清单。"""
+    import shutil
+
+    repo = Path(repo_path)
+    if not (repo / ".git").is_dir():
+        raise SystemExit(f"✘ 不是 git 仓库：{repo}\n  先 git clone https://github.com/endlesswxk/lifeOS.git {repo}")
+
+    step(f"同步到 lifeOS：{repo}")
+    pull = run(["git", "-C", str(repo), "pull", "--ff-only"], check=False)
+    print("  " + (pull.stdout or pull.stderr or "").strip()[:200])
+
+    # 1) kb/ = 本包的全部跟踪文件（跳过 .github，workflow 只认仓库根）
+    out = run(["git", "-C", str(PKG), "-c", "core.quotepath=false", "ls-files", "-z"]).stdout
+    files = [f for f in out.split("\0") if f.strip() and not f.startswith(".github/")]
+    kb = repo / "kb"
+    copied = 0
+    for rel in files:
+        src, dst = PKG / rel, kb / rel
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, dst)
+        copied += 1
+    print(f"  kb/ 写入 {copied} 个文件")
+
+    # 2) 清理 kb/ 里已从本包删除的旧文件
+    tracked_kb = run(["git", "-C", str(repo), "-c", "core.quotepath=false", "ls-files", "-z", "kb"]).stdout
+    removed = 0
+    for f in [x for x in tracked_kb.split("\0") if x.strip()]:
+        rel = f[3:] if f.startswith("kb/") else None
+        if rel and rel not in files and (kb / rel).exists():
+            (kb / rel).unlink()
+            removed += 1
+    if removed:
+        print(f"  kb/ 删除 {removed} 个已不存在的旧文件")
+
+    # 3) kb/index.html 跳转页（静态，永不与 site/ 不同步）
+    (kb / "index.html").write_text(REDIRECT_PAGE, encoding="utf-8")
+
+    # 4) sw.js（从本包 部署-lifeOS/sw.js 拷过去）
+    sw = PKG / "部署-lifeOS" / "sw.js"
+    if sw.is_file():
+        shutil.copy2(sw, repo / "sw.js")
+        ver = re.search(r"const CACHE = '([^']+)'", sw.read_text(encoding="utf-8"))
+        print(f"  sw.js → {ver.group(1) if ver else '?'}")
+
+    # 5) 重新生成 app 里的清单（含跳知识库的链接）
+    app = repo / "index.html"
+    if app.is_file():
+        r = run([PY, str(ROOT / "build_app.py"), "--app", str(app)], check=False)
+        print("  " + (r.stdout or "").strip().replace("\n", "\n  "))
+
+    # 6) 提交
+    st = run(["git", "-C", str(repo), "status", "--porcelain"]).stdout.strip()
+    if not st:
+        print("  没有变化，跳过提交")
+    else:
+        n = len(st.splitlines())
+        ident = ["-c", "user.name=endlesswxk", "-c", "user.email=endlesswxk@users.noreply.github.com"]
+        version, _ = cards_meta()
+        run(["git", "-C", str(repo), "add", "-A"], check=True)   # 别忘了 add
+        run(["git", "-C", str(repo), *ident, "commit", "-q", "-m",
+             f"kb: 同步知识库 v{version}（{n} 个文件）"], check=True)
+        left = run(["git", "-C", str(repo), "status", "--porcelain"]).stdout.strip()
+        assert not left, f"提交后仍有未提交改动：{left[:200]}"
+        print(f"  已提交 {n} 个文件")
+
+    if do_push:
+        r = run(["git", "-C", str(repo), "push", "origin", "HEAD:main"], check=False)
+        if r.returncode != 0:
+            out2 = ((r.stdout or "") + (r.stderr or "")).strip()
+            raise SystemExit("✘ 推送失败（凭据？见 05-持续更新.md）：\n" + out2[:800])
+        print("  已推送 → https://github.com/endlesswxk/lifeOS")
+    else:
+        print("  提示：加 --push 才会推送")
+
+
+REDIRECT_PAGE = """<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>个人健康知识库</title>
+<meta http-equiv="refresh" content="0; url=site/">
+<link rel="canonical" href="site/">
+<style>
+  body{margin:0;min-height:100vh;display:grid;place-items:center;
+       font:16px/1.6 -apple-system,"Segoe UI","Noto Sans SC","Microsoft YaHei",sans-serif;
+       background:#f7f7f5;color:#1c1c1e;text-align:center;padding:2rem}
+  a{color:#2e7d8f}
+  @media (prefers-color-scheme:dark){body{background:#131416;color:#e9e9ea}a{color:#63b7c8}}
+</style>
+</head>
+<body>
+<div>
+  <p>正在打开个人健康知识库…</p>
+  <p><a href="site/">如果没有自动跳转，点这里</a></p>
+</div>
+<script>location.replace("site/");</script>
+</body>
+</html>
+"""
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--version", help="先升到指定版本号，如 1.3")
@@ -191,6 +300,8 @@ def main():
     ap.add_argument("--verify", metavar="URL", help="推送后校验线上地址")
     ap.add_argument("--upstream", action="store_true", help="只检查上游原文是否更新")
     ap.add_argument("--skip-rebuild", action="store_true", help="跳过重建（只提交已有改动）")
+    ap.add_argument("--sync-lifeos", nargs="?", const=LIFEOS_DEFAULT, metavar="REPO",
+                    help=f"同步 kb/ + sw.js 到 lifeOS 仓库（默认 {LIFEOS_DEFAULT}）")
     args = ap.parse_args()
 
     if args.upstream:
@@ -208,10 +319,13 @@ def main():
     version, n_cards = cards_meta()
     if has_changes() or args.message:
         commit(version, n_cards, args.message)
-    if args.push:
-        push(f"v{version}")
+    if args.push and not args.sync_lifeos:
+        push(f"v{version}")   # 独立仓库推送；同步 lifeOS 时由 sync_lifeos 负责
     if args.verify:
         verify(args.verify, version)
+
+    if args.sync_lifeos:
+        sync_lifeos(args.sync_lifeos, args.push)
 
     print(f"\n完成（v{version} · {n_cards} 张卡）")
     if not args.push:

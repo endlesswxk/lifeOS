@@ -21,6 +21,7 @@
 
 全部通过退出码 0；有失败退出码 1，并列出失败项。
 """
+import importlib.util
 import json
 import re
 import subprocess
@@ -306,6 +307,36 @@ def t_sources():
     return f"HLB 正文 {len(chapters)} 章 + 4 份上游台账齐全"
 
 
+def t_app_sync():
+    """app（lifeOS）的清单必须由 checklist.json 生成，且每条深链指向真实卡片。"""
+    app = PKG.parent / "index.html"
+    if not app.is_file():
+        return "无同仓库 app，跳过"
+
+    src = app.read_text(encoding="utf-8")
+    if "<<KB-CHECK-START>>" not in src:
+        return "app 未接入知识库，跳过"
+    assert 'data-href="kb/site/"' in src, "app 底部导航缺「知识库」入口"
+
+    # 用 build_app.py 的同一套逻辑重算，逐字节比对
+    spec = importlib.util.spec_from_file_location("build_app", ROOT / "build_app.py")
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    cl, cards = m.load()
+    secs, problems = m.build_sections(cl, cards)
+    assert not problems, f"清单数据有问题：{problems[:3]}"
+
+    want = m.render_block(secs)
+    pat = re.compile(re.escape(m.START) + r".*?" + re.escape(m.END), re.S)
+    cur = pat.search(src)
+    assert cur, "app 里的生成标记不完整"
+    assert cur.group(0) == want, "app 清单与 checklist.json 不同步（跑 build_app.py）"
+
+    total = sum(len(x["items"]) for x in secs)
+    linked = sum(1 for x in secs for i in x["items"] if i.get("card"))
+    return f"{len(secs)} 组 / {total} 条，{linked} 条深链全部有效"
+
+
 def main():
     print(f"成果包：{PKG}\n")
     checks = [
@@ -324,6 +355,7 @@ def main():
         ("引用溯源", t_refs),
         ("文档互链", t_docs_links),
         ("上游原文", t_sources),
+        ("app 清单同步", t_app_sync),
     ]
     for name, fn in checks:
         check(name, fn)

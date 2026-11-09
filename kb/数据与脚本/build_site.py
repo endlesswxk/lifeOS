@@ -114,6 +114,11 @@ HTML = """<!doctype html>
   footer p{margin:.35rem 0}
   mark{background:color-mix(in srgb,var(--accent) 28%,transparent);color:inherit;border-radius:.2rem;padding:0 .1rem}
   .empty{color:var(--muted);text-align:center;padding:3rem 0}
+  .back{display:inline-block;font-size:.82rem;color:var(--muted);text-decoration:none;
+        border:1px solid var(--line);border-radius:999px;padding:.25rem .7rem;margin-bottom:.6rem}
+  .back:hover{color:var(--accent);border-color:var(--accent)}
+  .card.focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
+  .card.focus h2{color:var(--accent)}
   @media print{
     .controls,footer{display:none} body{background:#fff;color:#000;padding:0}
     .card{break-inside:avoid;border-color:#ccc;margin-bottom:.4rem;padding:.5rem}
@@ -124,6 +129,7 @@ HTML = """<!doctype html>
 </head>
 <body>
 <header>
+  <a class="back" id="back" href="../../" hidden>← 生活系统</a>
   <h1>个人健康知识库</h1>
   <p class="sub">__COUNT__ 张卡 · 每条含「怎么做 / 不做的后果 / 证据与出处」 · 版本 __VERSION__（__BUILT__）</p>
 </header>
@@ -304,7 +310,37 @@ HTML = """<!doctype html>
     if (e.key === '/' && document.activeElement !== qEl){ e.preventDefault(); qEl.focus(); }
   });
 
+  // ---- 深链：#c-<卡 id> 直接定位、展开、高亮（lifeOS 的「依据 ↗」走这里）
+  function openHash(){
+    var m = /^#c-([A-Za-z0-9_.-]+)$/.exec(location.hash || '');
+    if (!m) return;
+    var el = document.getElementById('c-' + m[1]);
+    if (!el) {  // 被层级/证据筛选挡住了，就按 id 搜出来
+      state.q = m[1]; state.lv = ''; state.g = ''; qEl.value = m[1];
+      Array.prototype.forEach.call(lvEl.children, function(c){
+        c.setAttribute('aria-pressed', String(!c.dataset.lv));
+      });
+      gEl.value = '';
+      render();
+      el = document.getElementById('c-' + m[1]);
+      if (!el) return;
+    }
+    var d = el.querySelector('details'); if (d) d.open = true;
+    Array.prototype.forEach.call(document.querySelectorAll('.card.focus'), function(x){ x.classList.remove('focus'); });
+    el.classList.add('focus');
+    setTimeout(function(){ el.scrollIntoView({ block: 'start' }); }, 30);
+  }
+  window.addEventListener('hashchange', openHash);
+
+  // ---- 从 app 进来时显示「返回生活系统」
+  (function(){
+    var b = document.getElementById('back');
+    var httpish = location.protocol === 'http:' || location.protocol === 'https:';
+    if (b && httpish && /\\/kb\\/site\\/?$/.test(location.pathname)) b.hidden = false;
+  })();
+
   render();
+  openHash();
 })();
 </script>
 </body>
