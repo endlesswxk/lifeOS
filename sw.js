@@ -1,11 +1,12 @@
 /* 生活系统 LifeOS — Service Worker
    改版本号即可让所有设备拉取新版本
 
+   v5：界面调整（知识库/设置入口移到首屏右上角）后升版本，让已装主屏的设备尽快换新。
    v4：知识库（kb/site/）也进离线缓存；导航的离线回退按路径区分，
        不会再用知识库页面顶替应用外壳。
    v3：修缓存污染 —— 原来任何页面导航都会把响应写进 ./index.html。
 */
-const CACHE = 'lifeos-v4';
+const CACHE = 'lifeos-v5';
 
 // 应用外壳
 const SHELL = [
