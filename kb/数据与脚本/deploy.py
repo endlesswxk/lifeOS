@@ -309,10 +309,17 @@ def sync_lifeos(repo_path, do_push):
         print(f"  sw.js → {ver.group(1) if ver else '?'}")
 
     # 5) 仓库首页 README（GitHub 上没有它会显示「Add a README」）
+    # 根 .gitignore 兜底（防本机私有文件被误提交）
+    gi = PKG / "部署-lifeOS" / "gitignore-仓库根"
+    if gi.is_file():
+        shutil.copy2(gi, repo / ".gitignore")
+
     home = PKG / "部署-lifeOS" / "README-仓库首页.md"
     if home.is_file():
         shutil.copy2(home, repo / "README.md")
         print("  README.md → 仓库首页")
+    if gi.is_file():
+        print("  .gitignore → 仓库根（兜底）")
 
     # 6) 重新生成 app 里的清单（含跳知识库的链接）
     app = repo / "index.html"

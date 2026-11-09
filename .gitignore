@@ -1,0 +1,10 @@
+# 仓库根的兜底忽略：防止以后有人在根目录放本机私有文件
+*.local.json
+.env
+.env.*
+原始资料/
+__pycache__/
+*.pyc
+*.log
+.DS_Store
+Thumbs.db
