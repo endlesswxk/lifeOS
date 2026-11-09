@@ -10,7 +10,7 @@
     python 数据与脚本/deploy.py --sync-lifeos    # 同步 kb/ + sw.js 到 lifeOS 仓库并推送
 
 设计约定：
-  * 只用标准库；token 不进本脚本，靠 git 自己的凭据助手（见 05-持续更新.md）
+  * 只用标准库；token 不进本脚本，靠 git 自己的凭据助手（见 03-持续更新.md）
   * 自检不过就中止，绝不把没校验的内容推上去
   * 没有内容变化就干净退出，不产生空提交
 """
@@ -125,7 +125,7 @@ def push(tag):
         raise SystemExit(
             "✘ 还没设置 remote。先执行：\n"
             "  git remote add origin https://github.com/<用户名>/<仓库名>.git\n"
-            "  （然后把 token 存进凭据助手，见 05-持续更新.md）"
+            "  （然后把 token 存进凭据助手，见 03-持续更新.md）"
         )
     args = ["push", "origin", branch]
     if tag:
@@ -357,7 +357,7 @@ def sync_lifeos(repo_path, do_push):
             raise SystemExit(
                 "✘ 推送失败（没有可用凭据）：\n" + out2[:600] +
                 "\n  在 数据与脚本/.local.json 里配 cred_name + cred_script，"
-                "或先配一次 git 凭据助手（见 05-持续更新.md）")
+                "或先配一次 git 凭据助手（见 03-持续更新.md）")
         print("  已推送 → https://github.com/endlesswxk/lifeOS")
     else:
         print("  提示：加 --push 才会推送")
