@@ -27,7 +27,6 @@ lifeOS/
    ├─ 数据与脚本/           卡片源数据 + 生成/自检/发布脚本
    ├─ 02-引用与来源.md      逐卡溯源到原文条目与论文 DOI
    ├─ 03-使用说明.md        怎么用、证据等级怎么读
-   ├─ 04-自部署说明.md      自己搭一份
    └─ 05-持续更新.md        改一次成本 = 一条命令
 ```
 
@@ -47,16 +46,47 @@ app 里的清单**由 `kb/数据与脚本/checklist.json` 生成**（`build_app.
 全部在**你自己的浏览器**里（`localStorage`，键名 `lifeos.v1`）。没有账号、没有服务器、不上传任何东西。
 换浏览器 = 换一份数据，导出/导入见 app 的「统计」页。
 
-## 本地跑
+## 怎么打开 / 怎么挂到网上
 
-```bash
+三档，按需要选。**A 档不需要任何账号。**
+
+**A 只自己看 —— 双击就行**
+
+- app：根目录 `index.html`
+- 知识库：`kb/site/index.html`
+
+两个都是单文件，不联网也能用。手机上发给自己再点开即可，但请用 Chrome / Safari / Edge，
+**别用微信内置浏览器**（它会限制本地文件的脚本执行）。
+
+**B 局域网给家里人用（2 分钟）**
+
+```powershell
 git clone https://github.com/endlesswxk/lifeOS.git
 cd lifeOS
-python -m http.server 8080
-# 打开 http://localhost:8080
+python -m http.server 8080 --bind 0.0.0.0
+# 本机 http://127.0.0.1:8080/      手机 http://<电脑局域网IP>:8080/（ipconfig 查 IPv4）
 ```
 
-（直接双击 `index.html` 也能用，只是 Service Worker 和安装到主屏需要 http(s)。）
+连不上多半是 Windows 防火墙拦了 Python。**不要把它暴露到公网**——没有认证、没有 TLS。
+
+**C 公网（现在用的就是第一种）**
+
+| 方式 | 步骤 | 得到的地址 |
+|---|---|---|
+| **GitHub Pages**（当前） | `Settings` → `Pages` → `Deploy from a branch` → `main` / `/ (root)` | `https://<用户名>.github.io/<仓库>/` |
+| **Cloudflare Pages** | `Workers & Pages` → `Create` → `Pages` → `Upload assets` → 把仓库文件夹拖进去 | `https://<项目>.pages.dev` |
+| **Netlify Drop** | 把文件夹拖到 Netlify Drop 页面 | 临时域名，适合先看效果 |
+
+**三个真踩过的坑**
+
+| 现象 | 原因 | 处理 |
+|---|---|---|
+| 打开是 README，不是应用 | 根目录没有 `index.html`，或 Pages 目录没选 `/ (root)` | 检查路径层级 |
+| 中文名 / 带下划线的文件 404 | 缺 `.nojekyll`（GitHub Pages 会拿 Jekyll 处理） | 补一个空文件 |
+| 改了没变化 | Service Worker / 浏览器缓存 | `Ctrl+F5`；改内容时顺手升 `version` |
+
+> 服务端渲染、数据库、登录这些都不需要：整套东西是纯静态的，任何能放静态文件的托管都能跑。
+
 
 ## 内容怎么维护
 
@@ -64,6 +94,9 @@ python -m http.server 8080
 cd kb
 python 数据与脚本/自检.py                 # 14 项一致性校验
 python 数据与脚本/deploy.py --sync-lifeos --push   # 重建 → 自检 → 同步 → 推送
+
+# 需要打印版清单时（产物不入库）
+python 数据与脚本/render.py
 ```
 
 ## 说明

@@ -50,7 +50,6 @@ REQUIRED_DIRS = ["知识库", "知识库/cards", "数据与脚本",
 REQUIRED_FILES = [
     "02-引用与来源.md",
     "03-使用说明.md",
-    "04-自部署说明.md",
     "05-持续更新.md",
     "CHANGELOG.md",
     "LICENSE",
@@ -244,7 +243,7 @@ def t_refs():
 def t_docs_links():
     # 仓库根 README（lifeOS 的首页）由 部署-lifeOS/README-仓库首页.md 生成
     home = PKG.parent / "README.md"
-    need = ["02-引用与来源.md", "03-使用说明.md", "04-自部署说明.md",
+    need = ["02-引用与来源.md", "03-使用说明.md",
             "05-持续更新.md", "CHANGELOG.md", "site/index.html"]
     if home.is_file():
         readme = home.read_text(encoding="utf-8")
@@ -254,10 +253,9 @@ def t_docs_links():
         miss = [n for n in need if not (PKG / n).exists()]
         assert not miss, f"缺文档：{miss}"
     use = (PKG / "03-使用说明.md").read_text(encoding="utf-8")
-    assert "04-自部署说明.md" in use, "使用说明没有指向自部署说明"
-    dep = (PKG / "04-自部署说明.md").read_text(encoding="utf-8")
-    assert "02-引用与来源.md" in dep, "自部署说明没有指向引用文档（署名要求）"
-    return "README（仓库首页）→ 说明/部署/引用/变更，互链完整"
+    assert "02-引用与来源.md" in use, "使用说明没有指向引用文档（署名要求）"
+    assert "05-持续更新.md" in use, "使用说明没有指向持续更新文档"
+    return "README（仓库首页）→ 使用说明/引用/更新/变更，互链完整"
 
 
 # ---------------------------------------------------------------- 14 上游原文
