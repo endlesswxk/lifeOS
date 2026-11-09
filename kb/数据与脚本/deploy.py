@@ -187,7 +187,7 @@ def check_upstream():
 
 
 
-PUBLISH_EXCLUDE = ("00-源分析", "01-待办", "部署-lifeOS/")   # 内部工作笔记，不进公开仓库
+PUBLISH_EXCLUDE = ("部署-lifeOS/",)   # 只有本地部署须知不进公开仓库
 # 本机配置放在 数据与脚本/.local.json（已在 .gitignore 里，不进仓库）。
 # 别人用这份包时不需要它：没配就退回 git 自己的凭据助手。
 LOCAL_CFG = ROOT / ".local.json"

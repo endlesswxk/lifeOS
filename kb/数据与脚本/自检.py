@@ -49,8 +49,6 @@ REQUIRED_DIRS = ["一页纸清单", "知识库", "知识库/cards", "导入-Hind
                  "site", ".github/workflows"]
 REQUIRED_FILES = [
     "README.md",
-    "00-源分析-12个仓库.md",
-    "01-待办-未覆盖缺口.md",
     "02-引用与来源.md",
     "03-使用说明.md",
     "04-自部署说明.md",
