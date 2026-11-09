@@ -1,0 +1,1260 @@
+{
+  "meta": {
+    "title": "个人健康知识库",
+    "version": "1.3",
+    "built_at": "2026-11-09",
+    "sources": [
+      "https://github.com/geekan/HowToLiveLonger",
+      "https://github.com/zijie0/HumanSystemOptimization",
+      "https://github.com/eternity4719/HowToLiveBetter",
+      "https://github.com/Anduin2017/HowToCook"
+    ],
+    "note": "A/B/C/D 沿用 HowToLiveLonger 的实用分级，不是 GRADE；HR/RR/OR 是人群关联，不能相乘也不能换算成个人寿命。"
+  },
+  "count": 66,
+  "cards": [
+    {
+      "id": "no-smoking",
+      "title": "不吸烟（含电子烟）",
+      "level": "L0",
+      "section": "一票否决",
+      "grade": "B",
+      "keywords": [
+        "吸烟",
+        "抽烟",
+        "戒烟",
+        "电子烟",
+        "香烟",
+        "尼古丁",
+        "二手烟"
+      ],
+      "harm": "吸烟者全因死亡风险高 54%（≥10 支/日）、17%（<10 支/日）；少抽只是少一点，不是归零",
+      "path": "知识库/cards/no-smoking.md"
+    },
+    {
+      "id": "no-betel",
+      "title": "不嚼槟榔",
+      "level": "L0",
+      "section": "一票否决",
+      "grade": "C",
+      "keywords": [
+        "槟榔",
+        "口腔黏膜下纤维化",
+        "张口困难",
+        "口腔癌"
+      ],
+      "harm": "口腔黏膜下纤维化→张口困难、进食受限；口腔癌风险上升（RR 1.21）",
+      "path": "知识库/cards/no-betel.md"
+    },
+    {
+      "id": "road-safety",
+      "title": "交通与骑行安全",
+      "level": "L0",
+      "section": "一票否决",
+      "grade": "-",
+      "keywords": [
+        "安全带",
+        "头盔",
+        "酒驾",
+        "超速",
+        "车祸",
+        "安全座椅",
+        "电动车"
+      ],
+      "harm": "交通伤是全球青壮年第一死因；后排不系安全带同样致命；不戴盔的颅脑伤多数不可逆",
+      "path": "知识库/cards/road-safety.md"
+    },
+    {
+      "id": "ev-charging-gas",
+      "title": "火与气：电动车、烟雾报警器、燃气管",
+      "level": "L0",
+      "section": "一票否决",
+      "grade": "-",
+      "keywords": [
+        "电动车",
+        "充电",
+        "起火",
+        "烟雾报警器",
+        "燃气",
+        "一氧化碳",
+        "煤气"
+      ],
+      "harm": "楼道起火 3 分钟内浓烟即可致命；一氧化碳无色无味，中毒多发生在睡着时",
+      "path": "知识库/cards/ev-charging-gas.md"
+    },
+    {
+      "id": "wild-mushroom-mold",
+      "title": "野生蘑菇与霉变粮食",
+      "level": "L0",
+      "section": "一票否决",
+      "grade": "-",
+      "keywords": [
+        "蘑菇",
+        "野生菌",
+        "毒蘑菇",
+        "黄曲霉素",
+        "发霉",
+        "花生",
+        "玉米",
+        "坚果苦"
+      ],
+      "harm": "毒蘑菇无特效解药，肝肾衰竭进展快；黄曲霉素是强致癌物，280℃ 以上才开始分解，日常加热破坏不了",
+      "path": "知识库/cards/wild-mushroom-mold.md"
+    },
+    {
+      "id": "fixed-wake",
+      "title": "起床时间固定",
+      "level": "L1",
+      "section": "每天",
+      "grade": "-",
+      "keywords": [
+        "作息",
+        "生物钟",
+        "起床时间",
+        "倒时差",
+        "周末补觉",
+        "失眠"
+      ],
+      "harm": "作息来回漂，等于每周给自己倒一次时差：入睡变难、白天更困、情绪更差",
+      "path": "知识库/cards/fixed-wake.md"
+    },
+    {
+      "id": "sleep-7h",
+      "title": "睡够 7 小时左右",
+      "level": "L1",
+      "section": "每天",
+      "grade": "B",
+      "keywords": [
+        "睡眠",
+        "睡几个小时",
+        "睡不够",
+        "嗜睡",
+        "失眠",
+        "睡眠时长"
+      ],
+      "harm": "长期每晚 ≥10 小时组全因死亡高 34%（男）/48%（女）；睡不够伤免疫、代谢和情绪",
+      "path": "知识库/cards/sleep-7h.md"
+    },
+    {
+      "id": "morning-light",
+      "title": "起床后到户外见光 2–10 分钟",
+      "level": "L1",
+      "section": "每天",
+      "grade": "-",
+      "keywords": [
+        "晒太阳",
+        "晨光",
+        "光照",
+        "生物钟",
+        "褪黑素",
+        "白天困"
+      ],
+      "harm": "缺晨光，生物钟往后漂：晚上更难入睡、白天更困，情绪也更容易低",
+      "path": "知识库/cards/morning-light.md"
+    },
+    {
+      "id": "no-screen-before-bed",
+      "title": "睡前一小时不看手机；夜里少强光",
+      "level": "L1",
+      "section": "每天",
+      "grade": "-",
+      "keywords": [
+        "睡前玩手机",
+        "蓝光",
+        "刷手机",
+        "熬夜",
+        "入睡难",
+        "多巴胺"
+      ],
+      "harm": "夜间强光抑制多巴胺释放，接下来几天的情绪、专注和代谢都受影响",
+      "path": "知识库/cards/no-screen-before-bed.md"
+    },
+    {
+      "id": "caffeine-cutoff",
+      "title": "下午 2 点后不喝咖啡、浓茶",
+      "level": "L1",
+      "section": "每天",
+      "grade": "-",
+      "keywords": [
+        "咖啡",
+        "咖啡因",
+        "浓茶",
+        "奶茶",
+        "入睡难",
+        "心悸",
+        "提神"
+      ],
+      "harm": "咖啡因半衰期约 5–6 小时，下午那杯到半夜还有一半在体内，直接削掉深睡",
+      "path": "知识库/cards/caffeine-cutoff.md"
+    },
+    {
+      "id": "whole-grain",
+      "title": "主食里有一部分是全谷",
+      "level": "L1",
+      "section": "每天",
+      "grade": "B",
+      "keywords": [
+        "全谷物",
+        "粗粮",
+        "糙米",
+        "燕麦",
+        "全麦",
+        "膳食纤维",
+        "血糖"
+      ],
+      "harm": "全精制主食：血糖波动大、纤维不足，全谷那部分死亡风险收益全部丢掉",
+      "path": "知识库/cards/whole-grain.md"
+    },
+    {
+      "id": "veg-fruit-500g",
+      "title": "蔬菜水果每天一斤左右",
+      "level": "L1",
+      "section": "每天",
+      "grade": "-",
+      "keywords": [
+        "蔬菜",
+        "水果",
+        "一斤",
+        "果蔬",
+        "纤维",
+        "便秘",
+        "果汁"
+      ],
+      "harm": "蔬果不足是归因死亡排前列的饮食风险；缺的是纤维、钾和多酚，不是维生素片能替代的",
+      "path": "知识库/cards/veg-fruit-500g.md"
+    },
+    {
+      "id": "nuts",
+      "title": "每天一小把无盐坚果",
+      "level": "L1",
+      "section": "每天",
+      "grade": "B",
+      "keywords": [
+        "坚果",
+        "核桃",
+        "杏仁",
+        "零食",
+        "加餐",
+        "过敏"
+      ],
+      "harm": "不吃坚果的人常用膨化零食补嘴，换来的是反式脂肪和空热量",
+      "path": "知识库/cards/nuts.md"
+    },
+    {
+      "id": "no-sugary-drinks",
+      "title": "不喝含糖饮料",
+      "level": "L1",
+      "section": "每天",
+      "grade": "B",
+      "keywords": [
+        "奶茶",
+        "可乐",
+        "含糖饮料",
+        "果汁",
+        "糖",
+        "代糖",
+        "甜味剂",
+        "饮料"
+      ],
+      "harm": "每天 ≥2 份含糖饮料全因死亡高 21%；纯果汁也不省事（HR 1.24）",
+      "path": "知识库/cards/no-sugary-drinks.md"
+    },
+    {
+      "id": "no-processed-meat",
+      "title": "加工肉基本不吃，红肉适量",
+      "level": "L1",
+      "section": "每天",
+      "grade": "B",
+      "keywords": [
+        "加工肉",
+        "火腿",
+        "香肠",
+        "培根",
+        "红肉",
+        "牛肉",
+        "猪肉",
+        "蛋白质"
+      ],
+      "harm": "每天多一份加工肉全因死亡高 3%；红肉每天多半份高 10%",
+      "path": "知识库/cards/no-processed-meat.md"
+    },
+    {
+      "id": "range-hood",
+      "title": "炒菜全程开抽油烟机",
+      "level": "L1",
+      "section": "每天",
+      "grade": "-",
+      "keywords": [
+        "油烟",
+        "抽油烟机",
+        "油烟机",
+        "肺癌",
+        "炒菜",
+        "厨房",
+        "PM2.5"
+      ],
+      "harm": "厨房油烟是不吸烟女性肺癌的重要暴露源；爆炒时 PM2.5 可远超室外污染日",
+      "path": "知识库/cards/range-hood.md"
+    },
+    {
+      "id": "no-scalding-drink",
+      "title": "不喝滚烫的热饮",
+      "level": "L1",
+      "section": "每天",
+      "grade": "-",
+      "keywords": [
+        "烫",
+        "热茶",
+        "热水",
+        "食管癌",
+        "火锅",
+        "喝汤"
+      ],
+      "harm": "65℃ 以上热饮与食管癌风险相关；反复烫伤食管黏膜是明确的机制路径",
+      "path": "知识库/cards/no-scalding-drink.md"
+    },
+    {
+      "id": "fermented-food",
+      "title": "一天两次天然发酵食品",
+      "level": "L1",
+      "section": "每天",
+      "grade": "-",
+      "keywords": [
+        "肠道菌群",
+        "益生菌",
+        "酸奶",
+        "酸菜",
+        "纳豆",
+        "发酵",
+        "免疫力",
+        "抗生素"
+      ],
+      "harm": "菌群多样性低→免疫调节差、慢性炎症水平高；抗生素一次就能把它打散",
+      "path": "知识库/cards/fermented-food.md"
+    },
+    {
+      "id": "7000-steps",
+      "title": "走到 7000 步左右",
+      "level": "L1",
+      "section": "每天",
+      "grade": "C",
+      "keywords": [
+        "走路",
+        "步数",
+        "7000步",
+        "一万步",
+        "散步",
+        "运动量"
+      ],
+      "harm": "不动的人死亡风险显著更高；步数是最便宜、门槛最低的干预",
+      "path": "知识库/cards/7000-steps.md"
+    },
+    {
+      "id": "break-sitting",
+      "title": "不连续坐 1 小时以上",
+      "level": "L1",
+      "section": "每天",
+      "grade": "B",
+      "keywords": [
+        "久坐",
+        "坐着",
+        "办公室",
+        "腰疼",
+        "颈椎",
+        "起身",
+        "站立"
+      ],
+      "harm": "每天久坐超过 8 小时后，每多 1 小时全因死亡风险 +4%；下班再运动也抵不掉全部",
+      "path": "知识库/cards/break-sitting.md"
+    },
+    {
+      "id": "brush-teeth",
+      "title": "刷牙 + 清牙缝 + 补缺牙",
+      "level": "L1",
+      "section": "每天",
+      "grade": "B",
+      "keywords": [
+        "刷牙",
+        "牙线",
+        "牙缝",
+        "牙周炎",
+        "牙龈出血",
+        "补牙",
+        "洗牙"
+      ],
+      "harm": "很少刷牙者过早死亡高 25%；牙周炎与心血管、糖尿病控制相互牵连",
+      "path": "知识库/cards/brush-teeth.md"
+    },
+    {
+      "id": "daylight",
+      "title": "白天出门见见太阳",
+      "level": "L1",
+      "section": "每天",
+      "grade": "D",
+      "keywords": [
+        "晒太阳",
+        "户外",
+        "维生素D",
+        "情绪",
+        "日照",
+        "晒伤"
+      ],
+      "harm": "白天不见光，夜里睡不好，情绪也更容易低；长期室内生活还伴随维生素 D 不足",
+      "path": "知识库/cards/daylight.md"
+    },
+    {
+      "id": "strength-2x",
+      "title": "每周 2 次力量训练",
+      "level": "L2",
+      "section": "每周",
+      "grade": "B",
+      "keywords": [
+        "力量训练",
+        "健身",
+        "肌肉",
+        "深蹲",
+        "俯卧撑",
+        "增肌",
+        "力量",
+        "器械"
+      ],
+      "harm": "肌肉量 30 岁后逐年下降，衰弱与跌倒是老人致死主因之一；肌肉是老年生活自理的本金",
+      "path": "知识库/cards/strength-2x.md"
+    },
+    {
+      "id": "aerobic-150",
+      "title": "每周中等强度有氧 150 分钟",
+      "level": "L2",
+      "section": "每周",
+      "grade": "B",
+      "keywords": [
+        "有氧",
+        "快走",
+        "跑步",
+        "心肺",
+        "150分钟",
+        "运动强度",
+        "骑车",
+        "游泳"
+      ],
+      "harm": "心肺适能低是最强的死亡预测指标之一；不运动者全因死亡明显更高",
+      "path": "知识库/cards/aerobic-150.md"
+    },
+    {
+      "id": "racket-sport",
+      "title": "一次挥拍或球类运动",
+      "level": "L2",
+      "section": "每周",
+      "grade": "B",
+      "keywords": [
+        "羽毛球",
+        "乒乓球",
+        "网球",
+        "球类",
+        "挥拍",
+        "运动",
+        "打球"
+      ],
+      "harm": "不运动者全因死亡约为常运动者的两倍（观察性）；一个人练难坚持，球类顺便解决「孤独」",
+      "path": "知识库/cards/racket-sport.md"
+    },
+    {
+      "id": "meet-people",
+      "title": "每周和亲人朋友真见面",
+      "level": "L2",
+      "section": "每周",
+      "grade": "B",
+      "keywords": [
+        "孤独",
+        "社交",
+        "朋友",
+        "独居",
+        "隔离",
+        "抑郁",
+        "见面"
+      ],
+      "harm": "社会隔离 OR 1.29、孤独 OR 1.26、独居 OR 1.32——量级和吸烟同级",
+      "path": "知识库/cards/meet-people.md"
+    },
+    {
+      "id": "cook-at-home",
+      "title": "每周自己做饭 ≥3 顿",
+      "level": "L2",
+      "section": "每周",
+      "grade": "C",
+      "keywords": [
+        "做饭",
+        "外卖",
+        "下厨",
+        "菜谱",
+        "带饭",
+        "超加工",
+        "速食"
+      ],
+      "harm": "外卖以超加工为主，UPF 高摄入组全因死亡 HR 1.62；油和盐也不受你控制",
+      "path": "知识库/cards/cook-at-home.md"
+    },
+    {
+      "id": "work-hours",
+      "title": "一周工作不超过 50 小时",
+      "level": "L2",
+      "section": "每周",
+      "grade": "-",
+      "keywords": [
+        "加班",
+        "工时",
+        "996",
+        "过劳",
+        "工作压力",
+        "下班",
+        "远程"
+      ],
+      "harm": "长期超时工作推高血压、压缩睡眠、抬高抑郁风险；恢复不足会把运动和三餐一起挤掉",
+      "path": "知识库/cards/work-hours.md"
+    },
+    {
+      "id": "bp-yearly",
+      "title": "每年量血压，高了按医嘱吃药",
+      "level": "L3",
+      "section": "每年 / 按年龄",
+      "grade": "A",
+      "keywords": [
+        "血压",
+        "高血压",
+        "降压药",
+        "头晕",
+        "体检",
+        "卒中"
+      ],
+      "harm": "高血压基本没症状，等有症状常是卒中、心衰或肾衰——那时已经不可逆",
+      "path": "知识库/cards/bp-yearly.md"
+    },
+    {
+      "id": "fasting-glucose",
+      "title": "查空腹血糖",
+      "level": "L3",
+      "section": "每年 / 按年龄",
+      "grade": "-",
+      "keywords": [
+        "血糖",
+        "糖尿病",
+        "糖化血红蛋白",
+        "空腹血糖",
+        "体检",
+        "口渴",
+        "多尿"
+      ],
+      "harm": "糖尿病前期没有感觉，常以十年后的视网膜、肾脏、神经并发症现身",
+      "path": "知识库/cards/fasting-glucose.md"
+    },
+    {
+      "id": "h-pylori-hcv",
+      "title": "查幽门螺杆菌与丙肝抗体",
+      "level": "L3",
+      "section": "每年 / 按年龄",
+      "grade": "C",
+      "keywords": [
+        "幽门螺杆菌",
+        "胃",
+        "胃痛",
+        "丙肝",
+        "肝炎",
+        "肝硬化",
+        "胃癌",
+        "呼气试验"
+      ],
+      "harm": "两者都是沉默的胃癌、肝硬化推手；丙肝现在能治愈，拖到肝硬化就只剩管理",
+      "path": "知识库/cards/h-pylori-hcv.md"
+    },
+    {
+      "id": "hep-b-vaccine",
+      "title": "核对乙肝接种史，需要就补种",
+      "level": "L3",
+      "section": "每年 / 按年龄",
+      "grade": "-",
+      "keywords": [
+        "乙肝",
+        "疫苗",
+        "两对半",
+        "表面抗体",
+        "肝癌",
+        "甲胎蛋白"
+      ],
+      "harm": "乙肝是肝癌主因之一，没有抗体等于没有防护；携带者不复查会错过早期肝癌",
+      "path": "知识库/cards/hep-b-vaccine.md"
+    },
+    {
+      "id": "cancer-screening",
+      "title": "按年龄做癌症筛查",
+      "level": "L3",
+      "section": "每年 / 按年龄",
+      "grade": "-",
+      "keywords": [
+        "体检",
+        "癌症筛查",
+        "肠镜",
+        "大便潜血",
+        "宫颈癌",
+        "HPV",
+        "钼靶",
+        "乳腺",
+        "骨密度"
+      ],
+      "harm": "结直肠癌、宫颈癌、乳腺癌早期几乎无症状；等有症状再查，分期和预后差一个档次",
+      "path": "知识库/cards/cancer-screening.md"
+    },
+    {
+      "id": "vaccines-age",
+      "title": "按年龄打疫苗",
+      "level": "L3",
+      "section": "每年 / 按年龄",
+      "grade": "-",
+      "keywords": [
+        "疫苗",
+        "流感",
+        "带状疱疹",
+        "肺炎",
+        "老年人",
+        "接种"
+      ],
+      "harm": "在老人身上，一次肺炎或流感常是「最后一次住院」；带状疱疹后神经痛可持续数月到数年",
+      "path": "知识库/cards/vaccines-age.md"
+    },
+    {
+      "id": "bmi-waist",
+      "title": "记 BMI 和腰围",
+      "level": "L3",
+      "section": "每年 / 按年龄",
+      "grade": "B",
+      "keywords": [
+        "体重",
+        "BMI",
+        "腰围",
+        "肥胖",
+        "减肥",
+        "肚子",
+        "代谢"
+      ],
+      "harm": "腰围每 +10cm 全因死亡 HR 1.11；腹型肥胖比体重更能预测代谢风险",
+      "path": "知识库/cards/bmi-waist.md"
+    },
+    {
+      "id": "snoring-osa",
+      "title": "打鼾憋气去做睡眠评估",
+      "level": "L3",
+      "section": "每年 / 按年龄",
+      "grade": "B",
+      "keywords": [
+        "打鼾",
+        "打呼噜",
+        "憋气",
+        "睡眠呼吸暂停",
+        "白天困",
+        "嗜睡",
+        "CPAP",
+        "睡眠监测"
+      ],
+      "harm": "重度睡眠呼吸暂停 HR 1.90；夜间反复缺氧持续伤心脏和大脑，还会拖累白天判断力",
+      "path": "知识库/cards/snoring-osa.md"
+    },
+    {
+      "id": "cpr-aed",
+      "title": "心脏骤停：按压 + AED",
+      "level": "L4",
+      "section": "出事那一刻",
+      "grade": "-",
+      "keywords": [
+        "心脏骤停",
+        "心肺复苏",
+        "CPR",
+        "AED",
+        "倒地",
+        "没有呼吸",
+        "急救",
+        "按压"
+      ],
+      "harm": "心脏骤停每延迟 1 分钟，存活率下降 7–10%；等救护车到常常已经晚了",
+      "path": "知识库/cards/cpr-aed.md"
+    },
+    {
+      "id": "stroke-120",
+      "title": "疑似卒中：直接打 120",
+      "level": "L4",
+      "section": "出事那一刻",
+      "grade": "-",
+      "keywords": [
+        "中风",
+        "卒中",
+        "嘴歪",
+        "说话含糊",
+        "半身不遂",
+        "120",
+        "脑梗"
+      ],
+      "harm": "卒中每耽误 1 分钟约 190 万个脑细胞死亡；溶栓/取栓都有严格时间窗",
+      "path": "知识库/cards/stroke-120.md"
+    },
+    {
+      "id": "chest-pain-120",
+      "title": "胸口压着疼超过 15 分钟：打 120",
+      "level": "L4",
+      "section": "出事那一刻",
+      "grade": "-",
+      "keywords": [
+        "胸痛",
+        "胸口疼",
+        "心梗",
+        "心肌梗死",
+        "胸闷",
+        "出汗",
+        "放射痛",
+        "120"
+      ],
+      "harm": "心梗拖过黄金时间，心肌坏死不可逆；坏死多少决定后半生的心功能",
+      "path": "知识库/cards/chest-pain-120.md"
+    },
+    {
+      "id": "choking",
+      "title": "噎住：拍背 + 腹部冲击",
+      "level": "L4",
+      "section": "出事那一刻",
+      "grade": "-",
+      "keywords": [
+        "噎住",
+        "卡住",
+        "窒息",
+        "异物",
+        "海姆立克",
+        "婴儿噎住",
+        "呛到"
+      ],
+      "harm": "完全梗阻几分钟内即脑损伤，来不及送医院",
+      "path": "知识库/cards/choking.md"
+    },
+    {
+      "id": "burn-rinse",
+      "title": "烫伤：凉流水冲 20 分钟",
+      "level": "L4",
+      "section": "出事那一刻",
+      "grade": "-",
+      "keywords": [
+        "烫伤",
+        "烧伤",
+        "开水",
+        "油溅",
+        "水泡",
+        "冲凉水"
+      ],
+      "harm": "不冲冷水，热力继续向深层传导，浅二度变深二度；抹牙膏、酱油、香油会造成感染并干扰医生判断",
+      "path": "知识库/cards/burn-rinse.md"
+    },
+    {
+      "id": "animal-bite",
+      "title": "猫狗咬伤抓破皮：当天打疫苗",
+      "level": "L4",
+      "section": "出事那一刻",
+      "grade": "-",
+      "keywords": [
+        "狗咬",
+        "猫抓",
+        "咬伤",
+        "狂犬病",
+        "疫苗",
+        "抓破",
+        "破伤风"
+      ],
+      "harm": "狂犬病一旦发病，病死率几乎 100%；抓破皮也算暴露，不是只有咬出血才算",
+      "path": "知识库/cards/animal-bite.md"
+    },
+    {
+      "id": "poisoning",
+      "title": "误服：不催吐，带瓶子去医院",
+      "level": "L4",
+      "section": "出事那一刻",
+      "grade": "-",
+      "keywords": [
+        "误服",
+        "中毒",
+        "清洁剂",
+        "农药",
+        "催吐",
+        "洗胃",
+        "小孩误食"
+      ],
+      "harm": "催吐会让腐蚀性液体二次灼伤食管；没有成分信息，医生只能盲处理",
+      "path": "知识库/cards/poisoning.md"
+    },
+    {
+      "id": "fire-escape",
+      "title": "火灾：贴地走、先摸门、走楼梯",
+      "level": "L4",
+      "section": "出事那一刻",
+      "grade": "-",
+      "keywords": [
+        "火灾",
+        "起火",
+        "浓烟",
+        "逃生",
+        "消防",
+        "跳楼",
+        "电梯"
+      ],
+      "harm": "浓烟 30 秒就能让人失去意识；电梯可能断电困人，是死亡高发点",
+      "path": "知识库/cards/fire-escape.md"
+    },
+    {
+      "id": "low-sodium-salt",
+      "title": "换成低钠富钾盐",
+      "level": "L5",
+      "section": "一次性办完",
+      "grade": "A",
+      "keywords": [
+        "盐",
+        "钠",
+        "低钠盐",
+        "血压",
+        "钾",
+        "酱油",
+        "口味重"
+      ],
+      "harm": "普通盐吃多推高血压，卒中风险随之上升；换盐是被随机试验验证过的低成本干预",
+      "path": "知识库/cards/low-sodium-salt.md"
+    },
+    {
+      "id": "handrail-balance",
+      "title": "扶手、防滑、练平衡",
+      "level": "L5",
+      "section": "一次性办完",
+      "grade": "-",
+      "keywords": [
+        "跌倒",
+        "摔倒",
+        "扶手",
+        "防滑",
+        "老人",
+        "平衡",
+        "骨折",
+        "浴室"
+      ],
+      "harm": "跌倒是 65 岁以上伤害死亡第一位；一次髋部骨折后一年内的功能下降常常不可逆",
+      "path": "知识库/cards/handrail-balance.md"
+    },
+    {
+      "id": "acetaminophen",
+      "title": "两种感冒药别叠着吃",
+      "level": "L5",
+      "section": "一次性办完",
+      "grade": "-",
+      "keywords": [
+        "感冒药",
+        "退烧药",
+        "对乙酰氨基酚",
+        "扑热息痛",
+        "止痛药",
+        "肝损伤",
+        "叠加"
+      ],
+      "harm": "叠加服用是急性肝衰竭最常见的原因之一；感冒药 + 退烧药 + 止痛药三件套最容易超量",
+      "path": "知识库/cards/acetaminophen.md"
+    },
+    {
+      "id": "antibiotics-alcohol",
+      "title": "感冒不吃抗生素；头孢不配酒",
+      "level": "L5",
+      "section": "一次性办完",
+      "grade": "-",
+      "keywords": [
+        "抗生素",
+        "消炎药",
+        "头孢",
+        "甲硝唑",
+        "喝酒",
+        "双硫仑",
+        "感冒",
+        "耐药"
+      ],
+      "harm": "双硫仑样反应可致面红、心悸、血压骤降甚至休克；滥用抗生素毁肠道菌群并催生耐药",
+      "path": "知识库/cards/antibiotics-alcohol.md"
+    },
+    {
+      "id": "food-safety-cook",
+      "title": "几类食物必须做熟",
+      "level": "L5",
+      "section": "一次性办完",
+      "grade": "-",
+      "keywords": [
+        "四季豆",
+        "豆浆",
+        "木耳",
+        "米酵菌酸",
+        "寄生虫",
+        "生鱼片",
+        "食物中毒",
+        "拉肚子"
+      ],
+      "harm": "皂苷、米酵菌酸、寄生虫都能直接进急诊；米酵菌酸没有特效解药",
+      "path": "知识库/cards/food-safety-cook.md"
+    },
+    {
+      "id": "cooking-oil",
+      "title": "食用油备 2–3 种轮换",
+      "level": "L5",
+      "section": "一次性办完",
+      "grade": "-",
+      "keywords": [
+        "食用油",
+        "橄榄油",
+        "菜籽油",
+        "花生油",
+        "反式脂肪",
+        "煎炸",
+        "油烟"
+      ],
+      "harm": "反复高温的油产生反式脂肪和氧化产物；Omega-6 超标、Omega-3 不足是现代饮食的典型失衡",
+      "path": "知识库/cards/cooking-oil.md"
+    },
+    {
+      "id": "notifications",
+      "title": "关掉非必要通知",
+      "level": "L5",
+      "section": "一次性办完",
+      "grade": "-",
+      "keywords": [
+        "通知",
+        "推送",
+        "专注",
+        "分心",
+        "手机",
+        "多任务",
+        "效率"
+      ],
+      "harm": "每次被打断，要十几分钟才能回到原来的思考深度；碎片化会持续消耗精力",
+      "path": "知识库/cards/notifications.md"
+    },
+    {
+      "id": "mood-help",
+      "title": "情绪持续低落超过两周就去求助",
+      "level": "L5",
+      "section": "一次性办完",
+      "grade": "C",
+      "keywords": [
+        "抑郁",
+        "情绪低落",
+        "焦虑",
+        "没兴趣",
+        "失眠",
+        "心理",
+        "求助",
+        "轻生"
+      ],
+      "harm": "长期悲观推高全因死亡（HR 1.13），还会拖慢就医、恶化慢病管理；抑郁本身是可治疗的",
+      "path": "知识库/cards/mood-help.md"
+    },
+    {
+      "id": "suicide-means",
+      "title": "把能要命的东西从手边拿走（不囤安眠药、农药、百草枯）",
+      "level": "L6",
+      "section": "情绪与心理",
+      "grade": "B",
+      "keywords": [
+        "自杀",
+        "想不开",
+        "安眠药",
+        "农药",
+        "百草枯",
+        "烧炭",
+        "煤气",
+        "12356",
+        "轻生",
+        "限制手段"
+      ],
+      "harm": "限制人拿到致死手段是有证据的干预：管控镇痛药后相关自杀降 43%，常有人跳楼的地点加防护后降 86%；百草枯无解药，孟加拉 257 例病死率 43.2%，救回来也可能留下不可逆的肺纤维化",
+      "path": "知识库/cards/suicide-means.md"
+    },
+    {
+      "id": "suicide-10min",
+      "title": "念头一冒出来先告诉一个人，把这几十分钟交出去",
+      "level": "L6",
+      "section": "情绪与心理",
+      "grade": "B",
+      "keywords": [
+        "自杀念头",
+        "冲动",
+        "独处",
+        "陪",
+        "自伤",
+        "12356",
+        "能不能一个人待着"
+      ],
+      "harm": "从念头冒出来到真正动手，将近一半的人不超过 10 分钟；这个窗口短到专业人士来不及介入，能拦住的多半是身边人",
+      "path": "知识库/cards/suicide-10min.md"
+    },
+    {
+      "id": "ask-suicide",
+      "title": "直接问「你有没有想过自杀」，问了不会让他更想",
+      "level": "L6",
+      "section": "情绪与心理",
+      "grade": "B",
+      "keywords": [
+        "问自杀",
+        "怎么开口",
+        "身边人",
+        "情绪不对",
+        "抑郁",
+        "筛查",
+        "陪伴"
+      ],
+      "harm": "不敢问，是这个念头最容易被漏掉的环节；而不问的代价，是错过那个只有十分钟的窗口",
+      "path": "知识库/cards/ask-suicide.md"
+    },
+    {
+      "id": "grief-acute",
+      "title": "丧亲：头几天别一个人待着，头半年把药和三餐交给一个人",
+      "level": "L6",
+      "section": "情绪与心理",
+      "grade": "A",
+      "keywords": [
+        "丧亲",
+        "亲人去世",
+        "丧偶",
+        "办丧事",
+        "头七",
+        "心梗",
+        "药",
+        "大决定",
+        "抚恤金",
+        "悲伤"
+      ],
+      "harm": "亲人去世后 24 小时内急性心梗发作率是平时的 21.1 倍；丧偶头半年死亡风险高约四成；悲伤状态下人为了不等 3 个月愿意少拿 13%–34% 的钱——这正是被骗和做错决定的窗口",
+      "path": "知识库/cards/grief-acute.md"
+    },
+    {
+      "id": "diagnosis-week",
+      "title": "拿到重病诊断的第一周：别一个人去拿报告",
+      "level": "L6",
+      "section": "情绪与心理",
+      "grade": "A",
+      "keywords": [
+        "确诊",
+        "癌症",
+        "诊断",
+        "报告",
+        "崩溃",
+        "辞职",
+        "卖房",
+        "刚知道"
+      ],
+      "harm": "确诊癌症后第一周自杀相对风险 12.6 倍、心血管死亡 5.6 倍——最高的风险集中在「刚知道」的那几天，之后一年内迅速回落",
+      "path": "知识库/cards/diagnosis-week.md"
+    },
+    {
+      "id": "grief-stuck",
+      "title": "哀伤卡住超过半年：去精神科或临床心理科挂号",
+      "level": "L6",
+      "section": "情绪与心理",
+      "grade": "A",
+      "keywords": [
+        "哀伤",
+        "走不出来",
+        "悲伤",
+        "想念",
+        "延长哀伤",
+        "复杂哀伤",
+        "挂号",
+        "心理咨询",
+        "精神科"
+      ],
+      "harm": "大约每 10 个丧亲的成年人里有 1 个会卡住；卡住之后不是「时间没到」，而是有诊断标准、也有专门治疗的状态，靠自己熬的代价是长期的失能",
+      "path": "知识库/cards/grief-stuck.md"
+    },
+    {
+      "id": "trauma-month",
+      "title": "车祸、被打、灾难之后一个月仍在噩梦闪回：做创伤聚焦治疗",
+      "level": "L6",
+      "section": "情绪与心理",
+      "grade": "A",
+      "keywords": [
+        "创伤",
+        "PTSD",
+        "闪回",
+        "噩梦",
+        "车祸",
+        "被打",
+        "灾难",
+        "心理晤谈",
+        "debriefing",
+        "受惊"
+      ],
+      "harm": "经历创伤的人平均约 8% 会发展成创伤后应激障碍；而出事后马上做的一次性心理晤谈防不住它，有一项试验里做过的人三年后反而更差",
+      "path": "知识库/cards/trauma-month.md"
+    },
+    {
+      "id": "mood-first-steps",
+      "title": "情绪低落时先做这五件事：动起来、多见光、按时睡、找人说、打 12356",
+      "level": "L6",
+      "section": "情绪与心理",
+      "grade": "A",
+      "keywords": [
+        "情绪低落",
+        "抑郁",
+        "心情差",
+        "不想动",
+        "没劲",
+        "走一走",
+        "运动",
+        "晒太阳",
+        "光照",
+        "自助",
+        "12356",
+        "心理咨询",
+        "CBT"
+      ],
+      "harm": "轻中度抑郁最常见的走向不是崩溃，是活动量一路掉到零：不起床、不出门、不见人，越不动越没力气动。同一批 218 项随机试验里，只做别的活动的对照组症状几乎不动，而步行或慢跑组平均好 0.62 个标准差；季节性抑郁不接受光照治疗，改善也明显更小。这五件事里唯一来不及补救的是「想不开时打个电话」。",
+      "path": "知识库/cards/mood-first-steps.md"
+    },
+    {
+      "id": "no-nmn",
+      "title": "别为抗衰吃 NMN",
+      "level": "DONT",
+      "section": "省钱的「别做」",
+      "grade": "D",
+      "keywords": [
+        "NMN",
+        "NAD",
+        "抗衰",
+        "保健品",
+        "补剂",
+        "长寿药"
+      ],
+      "harm": "钱花了，健康人延寿没有任何直接证据；长期安全性未知",
+      "path": "知识库/cards/no-nmn.md"
+    },
+    {
+      "id": "no-metformin-healthy",
+      "title": "健康人别自行吃二甲双胍",
+      "level": "DONT",
+      "section": "省钱的「别做」",
+      "grade": "C",
+      "keywords": [
+        "二甲双胍",
+        "metformin",
+        "降糖药",
+        "抗衰",
+        "长寿药"
+      ],
+      "harm": "腹泻 53% vs 12%，还可能掩盖真正的病因；健康人延寿证据不成立",
+      "path": "知识库/cards/no-metformin-healthy.md"
+    },
+    {
+      "id": "no-multivitamin",
+      "title": "别常规吃复合维生素、大剂量维 D 求延寿",
+      "level": "DONT",
+      "section": "省钱的「别做」",
+      "grade": "A",
+      "keywords": [
+        "维生素",
+        "复合维生素",
+        "维D",
+        "维生素D",
+        "保健品",
+        "补剂"
+      ],
+      "harm": "随机试验为阴性（HR 0.99），等于花钱买安慰；大剂量维生素 D 还有高钙血症风险",
+      "path": "知识库/cards/no-multivitamin.md"
+    },
+    {
+      "id": "no-aspirin-primary",
+      "title": "别自行开始阿司匹林做一级预防",
+      "level": "DONT",
+      "section": "省钱的「别做」",
+      "grade": "B",
+      "keywords": [
+        "阿司匹林",
+        "抗血小板",
+        "一级预防",
+        "出血",
+        "血稠",
+        "心梗"
+      ],
+      "harm": "老年试验中出血更多（HR 1.14），全因死亡没有获益，得不偿失",
+      "path": "知识库/cards/no-aspirin-primary.md"
+    },
+    {
+      "id": "no-melatonin",
+      "title": "长期失眠别靠褪黑素",
+      "level": "DONT",
+      "section": "省钱的「别做」",
+      "grade": "-",
+      "keywords": [
+        "褪黑素",
+        "失眠",
+        "睡不着",
+        "安眠药",
+        "CBT",
+        "倒时差"
+      ],
+      "harm": "褪黑素产品规格不受控，可能引起抑郁情绪；它不解决「躺下就紧张」这类行为问题",
+      "path": "知识库/cards/no-melatonin.md"
+    },
+    {
+      "id": "no-calcium-soup-iv",
+      "title": "别猛补钙、喝骨头汤治骨折；感冒别要求输液",
+      "level": "DONT",
+      "section": "省钱的「别做」",
+      "grade": "-",
+      "keywords": [
+        "骨折",
+        "补钙",
+        "骨头汤",
+        "输液",
+        "打点滴",
+        "感冒",
+        "结石"
+      ],
+      "harm": "补钙不治骨折，过量还增加结石与心血管钙化风险；骨头汤里主要是脂肪和嘌呤；输液增加感染、过敏和静脉炎机会",
+      "path": "知识库/cards/no-calcium-soup-iv.md"
+    }
+  ],
+  "bundles": [
+    {
+      "level": "L0",
+      "file": "知识库/L0-一票否决.md",
+      "count": 5
+    },
+    {
+      "level": "L1",
+      "file": "知识库/L1-每天.md",
+      "count": 17
+    },
+    {
+      "level": "L2",
+      "file": "知识库/L2-每周.md",
+      "count": 6
+    },
+    {
+      "level": "L3",
+      "file": "知识库/L3-每年或按年龄.md",
+      "count": 8
+    },
+    {
+      "level": "L4",
+      "file": "知识库/L4-出事那一刻.md",
+      "count": 8
+    },
+    {
+      "level": "L5",
+      "file": "知识库/L5-一次性办完.md",
+      "count": 8
+    },
+    {
+      "level": "L6",
+      "file": "知识库/L6-情绪与心理.md",
+      "count": 8
+    },
+    {
+      "level": "DONT",
+      "file": "知识库/L9-省钱的别做.md",
+      "count": 6
+    }
+  ]
+}

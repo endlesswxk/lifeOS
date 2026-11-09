@@ -1,0 +1,33 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# ---- 编辑器 / 系统 ----
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- 临时与日志 ----
+_tmp/
+tmp/
+*.log
+*.bak
+*.bak-*
+
+# ---- 浏览器/打印临时产物 ----
+*.tmp.html
+chrome-profile/
+print-preview/
+
+# ---- 上游原文：不随包分发（版权 + 时效）----
+# 用 `python 数据与脚本/fetch_sources.py` 现取；
+# 原因是 HumanSystemOptimization 没有许可证，再分发其原文有版权风险。
+原始资料/
+
+# 说明：交付物（知识库/、一页纸清单/、site/、导入-Hindsight/、02-引用与来源.md）
+# 都是成果的一部分，必须提交，不要忽略。
