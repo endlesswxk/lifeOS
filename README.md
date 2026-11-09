@@ -99,6 +99,11 @@ python 数据与脚本/deploy.py --sync-lifeos --push   # 重建 → 自检 → 
 python 数据与脚本/render.py
 ```
 
+改了什么都记在 [`kb/CHANGELOG.md`](kb/CHANGELOG.md)；版本号规则和上游更新怎么跟，见
+[`kb/03-持续更新.md`](kb/03-持续更新.md)。
+推上去之后 GitHub Actions 会跑一遍 `kb-check`（重建派生文件、14 项自检、站点自包含），
+红了就是「改了源忘了重建」或「手改了 app 清单」。
+
 ## 说明
 
 - 这是**个人整理**，不是医疗建议；有症状请就医。

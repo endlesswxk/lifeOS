@@ -314,6 +314,18 @@ def sync_lifeos(repo_path, do_push):
     if gi.is_file():
         shutil.copy2(gi, repo / ".gitignore")
 
+    # 校验型 CI（只做检查，不生成内容）
+    wfdir = repo / ".github" / "workflows"
+    src_wf = PKG / "部署-lifeOS" / "github-workflows"
+    if src_wf.is_dir():
+        wfdir.mkdir(parents=True, exist_ok=True)
+        for f in sorted(src_wf.glob("*.yml")):
+            shutil.copy2(f, wfdir / f.name)
+        for stale in wfdir.glob("*.yml"):
+            if not (src_wf / stale.name).is_file():
+                stale.unlink()
+        print(f"  .github/workflows → {len(list(src_wf.glob('*.yml')))} 个（校验型 CI）")
+
     home = PKG / "部署-lifeOS" / "README-仓库首页.md"
     if home.is_file():
         shutil.copy2(home, repo / "README.md")

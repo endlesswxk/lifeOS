@@ -283,7 +283,8 @@ def t_app_sync():
     src = app.read_text(encoding="utf-8")
     if "<<KB-CHECK-START>>" not in src:
         return "app 未接入知识库，跳过"
-    assert 'data-href="kb/site/"' in src, "app 底部导航缺「知识库」入口"
+    assert ('id="hKb"' in src) or ('data-href="kb/site/"' in src), \
+        "app 里没有知识库入口（首屏右上角应是 id=\"hKb\"）"
 
     # 用 build_app.py 的同一套逻辑重算，逐字节比对
     spec = importlib.util.spec_from_file_location("build_app", ROOT / "build_app.py")
@@ -305,7 +306,8 @@ def t_app_sync():
 
 
 def main():
-    print(f"成果包：{PKG}\n")
+    ci = "--ci" in sys.argv        # CI 里没有 原始资料/（版权原因不分发）
+    print(f"成果包：{PKG}" + ("（CI 模式）" if ci else "") + "\n")
     checks = [
         ("结构完整性", t_structure),
         ("cards.json 结构", t_cards_json),
@@ -322,6 +324,9 @@ def main():
         ("上游原文", t_sources),
         ("app 清单同步", t_app_sync),
     ]
+    if ci:
+        # 上游原文只在本地有：CI 里跳过，不当作失败
+        checks = [(n, f) for n, f in checks if n != "上游原文"]
     for name, fn in checks:
         check(name, fn)
 

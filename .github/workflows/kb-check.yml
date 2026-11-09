@@ -1,0 +1,77 @@
+name: kb-check
+
+# 只做「校验」，不生成内容、不自动提交：
+#   1) 派生文件（知识库/ 与 site/index.html）必须能从 cards.json 重建出一模一样的结果
+#   2) app 里的 58 条清单必须等于 checklist.json 的生成结果（自检第 14 项）
+#   3) 14 项一致性自检全部通过
+# 内容本身仍然在你本地改（依赖 原始资料/ 与个人判断，不适合放进 CI）。
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "kb/**"
+      - "index.html"
+      - ".github/workflows/kb-check.yml"
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 只允许标准库（别人拿到仓库不该需要 pip install）
+        working-directory: kb
+        run: |
+          python - <<'PY'
+          import re, pathlib, sys
+          stdlib = set(sys.stdlib_module_names)
+          bad = {}
+          for f in pathlib.Path("数据与脚本").glob("*.py"):
+              for m in re.finditer(r"^\s*(?:import|from)\s+([A-Za-z_][\w.]*)", f.read_text(encoding="utf-8"), re.M):
+                  top = m.group(1).split(".")[0]
+                  if top not in stdlib:
+                      bad.setdefault(f.name, set()).add(top)
+          if bad:
+              print("第三方依赖:", bad); sys.exit(1)
+          print("全部为标准库 ✓")
+          PY
+
+      - name: 派生物必须能从 cards.json 重建（不依赖上游原文）
+        working-directory: kb
+        run: |
+          python 数据与脚本/build_kb.py
+          python 数据与脚本/build_site.py
+          if ! git diff --quiet -- 知识库 site; then
+            echo "::error::重建后内容有变化：派生文件与 cards.json 不同步，请在本地重跑脚本后提交"
+            git --no-pager diff --stat -- 知识库 site
+            exit 1
+          fi
+          echo "知识库/ 与 site/ 与源一致 ✓"
+
+      - name: 一致性自检（14 项，CI 模式跳过上游原文）
+        working-directory: kb
+        run: python 数据与脚本/自检.py --ci
+        env:
+          PYTHONIOENCODING: utf-8
+
+      - name: 站点必须完全自包含
+        working-directory: kb
+        run: |
+          python - <<'PY'
+          import re, pathlib, sys
+          s = pathlib.Path("site/index.html").read_text(encoding="utf-8")
+          bad = re.findall(r'<(?:script[^>]*src|link[^>]*href|img[^>]*src)\s*=\s*["\'](?:https?:)?//', s)
+          if bad:
+              print("外部资源引用:", bad); sys.exit(1)
+          for must in ("<style", 'id="data"'):
+              if must not in s:
+                  print("缺失:", must); sys.exit(1)
+          print("站点自包含 ✓", len(s), "字符")
+          PY
