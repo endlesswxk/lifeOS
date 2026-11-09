@@ -48,7 +48,6 @@ def check(name, fn):
 REQUIRED_DIRS = ["一页纸清单", "知识库", "知识库/cards", "导入-Hindsight", "数据与脚本",
                  "site", ".github/workflows"]
 REQUIRED_FILES = [
-    "README.md",
     "02-引用与来源.md",
     "03-使用说明.md",
     "04-自部署说明.md",
@@ -277,16 +276,22 @@ def t_refs():
 
 # ---------------------------------------------------------------- 13 文档互链
 def t_docs_links():
-    readme = (PKG / "README.md").read_text(encoding="utf-8")
+    # 仓库根 README（lifeOS 的首页）由 部署-lifeOS/README-仓库首页.md 生成
+    home = PKG.parent / "README.md"
     need = ["02-引用与来源.md", "03-使用说明.md", "04-自部署说明.md",
             "05-持续更新.md", "CHANGELOG.md", "site/index.html"]
-    miss = [n for n in need if n not in readme]
-    assert not miss, f"README 没有指向：{miss}"
+    if home.is_file():
+        readme = home.read_text(encoding="utf-8")
+        miss = [n for n in need if n not in readme]
+        assert not miss, f"仓库首页 README 没有指向：{miss}"
+    else:
+        miss = [n for n in need if not (PKG / n).exists()]
+        assert not miss, f"缺文档：{miss}"
     use = (PKG / "03-使用说明.md").read_text(encoding="utf-8")
     assert "04-自部署说明.md" in use, "使用说明没有指向自部署说明"
     dep = (PKG / "04-自部署说明.md").read_text(encoding="utf-8")
     assert "02-引用与来源.md" in dep, "自部署说明没有指向引用文档（署名要求）"
-    return "README → 说明/部署/引用/变更，互链完整"
+    return "README（仓库首页）→ 说明/部署/引用/变更，互链完整"
 
 
 # ---------------------------------------------------------------- 14 上游原文

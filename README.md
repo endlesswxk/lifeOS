@@ -68,12 +68,16 @@ python 数据与脚本/自检.py                 # 16 项一致性校验
 python 数据与脚本/deploy.py --sync-lifeos --push   # 重建 → 自检 → 同步 → 推送
 ```
 
-知识库的详细说明书在 **[kb/README.md](kb/README.md)**。
-
 ## 说明
 
 - 这是**个人整理**，不是医疗建议；有症状请就医。
 - 证据等级用 `A/B/C/D/-` 标注（`A` 随机对照或大样本，`-` 属常识不适用分级），每条都写了出处。
 - 许可证：代码 [MIT](kb/LICENSE)；文本内容 [CC BY 4.0](kb/LICENSE-内容-CC-BY-4.0.md)，上游署名要求见该文件。
-- 知识库内容整理自 *How To Live Longer*、*How Not to Die* / *How to Survive a Pandemic*、NHS / CDC / WHO 等公开资料，
-  各卡片的出处与 DOI 见 [kb/02-引用与来源.md](kb/02-引用与来源.md)。
+- 知识库内容整理自这四个仓库的原文：
+  [HowToLiveLonger](https://github.com/geekan/HowToLiveLonger)（Unlicense）、
+  [HowToLiveBetter](https://github.com/eternity4719/HowToLiveBetter)（CC BY 4.0，已署名）、
+  [HowToCook](https://github.com/Anduin2017/HowToCook)（Unlicense）、
+  [HumanSystemOptimization](https://github.com/zijie0/HumanSystemOptimization)（无许可证，仅作事实引用与改写），
+  以及 NHS / CDC / WHO 等公开指南。各卡片的出处与 DOI 见 [kb/02-引用与来源.md](kb/02-引用与来源.md)。
+- 上游 `原始资料/`（书籍正文与台账）**不随本仓库分发**（版权与时效），需要时用
+  `kb/数据与脚本/fetch_sources.py` 现取。
