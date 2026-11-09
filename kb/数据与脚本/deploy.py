@@ -186,6 +186,20 @@ def check_upstream():
 
 
 
+CRED_NAME = "github-lifeos"
+CREDMAN = r"D:\DSH_HOME\skills\credential-manager\scripts\credman.ps1"
+
+
+def cred_secret(name):
+    """从本机 DPAPI 凭据库取 secret；取不到返回空串。不打印。"""
+    if not Path(CREDMAN).is_file():
+        return ""
+    r = subprocess.run(["pwsh", "-NoProfile", "-Command",
+                        f'& "{CREDMAN}" get -Name {name} -Field secret'],
+                       capture_output=True, text=True, encoding="utf-8")
+    return (r.stdout or "").strip() if r.returncode == 0 else ""
+
+
 LIFEOS_DEFAULT = r"E:\SLACK-AI\lifeOS"
 
 
@@ -258,8 +272,21 @@ def sync_lifeos(repo_path, do_push):
     if do_push:
         r = run(["git", "-C", str(repo), "push", "origin", "HEAD:main"], check=False)
         if r.returncode != 0:
-            out2 = ((r.stdout or "") + (r.stderr or "")).strip()
-            raise SystemExit("✘ 推送失败（凭据？见 05-持续更新.md）：\n" + out2[:800])
+            # 没配凭据助手时，从本机凭据库取（token 不进命令行输出、不落盘）
+            tok = cred_secret(CRED_NAME)
+            if not tok:
+                out2 = ((r.stdout or "") + (r.stderr or "")).strip()
+                raise SystemExit(
+                    "✘ 推送失败，且凭据库里没有 " + CRED_NAME + "：\n" + out2[:600] +
+                    "\n  先存一次：见 05-持续更新.md")
+            url = run(["git", "-C", str(repo), "remote", "get-url", "origin"]).stdout.strip()
+            if not url.startswith("https://"):
+                raise SystemExit(f"✘ remote 不是 https，无法用库里的 token：{url}")
+            auth = re.sub(r"^https://", f"https://endlesswxk:{tok}@", url)
+            r = run(["git", "-C", str(repo), "-c", "credential.helper=", "push", auth, "HEAD:main"], check=False)
+            safe = ((r.stdout or "") + (r.stderr or "")).replace(tok, "***").strip()
+            if r.returncode != 0:
+                raise SystemExit("✘ 推送失败：\n" + safe[:800])
         print("  已推送 → https://github.com/endlesswxk/lifeOS")
     else:
         print("  提示：加 --push 才会推送")
