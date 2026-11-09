@@ -117,6 +117,7 @@ HTML = """<!doctype html>
   .back{display:inline-block;font-size:.82rem;color:var(--muted);text-decoration:none;
         border:1px solid var(--line);border-radius:999px;padding:.25rem .7rem;margin-bottom:.6rem}
   .back:hover{color:var(--accent);border-color:var(--accent)}
+  .back[hidden]{display:none}   /* display 会覆盖 [hidden] 的默认 display:none，必须显式写回来 */
   .card.focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
   .card.focus h2{color:var(--accent)}
   @media print{
@@ -328,7 +329,13 @@ HTML = """<!doctype html>
     var d = el.querySelector('details'); if (d) d.open = true;
     Array.prototype.forEach.call(document.querySelectorAll('.card.focus'), function(x){ x.classList.remove('focus'); });
     el.classList.add('focus');
-    setTimeout(function(){ el.scrollIntoView({ block: 'start' }); }, 30);
+    setTimeout(function(){
+      // 让吸顶的搜索条不吃掉卡片标题
+      var bar = document.querySelector('.controls');
+      var off = (bar ? bar.offsetHeight : 0) + 10;
+      var y = el.getBoundingClientRect().top + window.scrollY - off;
+      window.scrollTo({ top: Math.max(0, y), behavior: 'auto' });
+    }, 30);
   }
   window.addEventListener('hashchange', openHash);
 
