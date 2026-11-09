@@ -12,6 +12,9 @@ venv/
 Thumbs.db
 desktop.ini
 
+# ---- 本机配置（路径/凭据名，因机器而异）----
+.local.json
+
 # ---- 临时与日志 ----
 _tmp/
 tmp/

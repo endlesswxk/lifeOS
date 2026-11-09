@@ -18,6 +18,7 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import os
 import re
 import subprocess
 import sys
@@ -187,13 +188,26 @@ def check_upstream():
 
 
 PUBLISH_EXCLUDE = ("00-源分析", "01-待办", "部署-lifeOS/")   # 内部工作笔记，不进公开仓库
-CRED_NAME = "github-lifeos"
-CREDMAN = r"D:\DSH_HOME\skills\credential-manager\scripts\credman.ps1"
+# 本机配置放在 数据与脚本/.local.json（已在 .gitignore 里，不进仓库）。
+# 别人用这份包时不需要它：没配就退回 git 自己的凭据助手。
+LOCAL_CFG = ROOT / ".local.json"
+
+
+def local_cfg():
+    try:
+        return json.loads(LOCAL_CFG.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+_CFG = local_cfg()
+CRED_NAME = os.environ.get("CRED_NAME") or _CFG.get("cred_name", "")
+CREDMAN = os.environ.get("CREDMAN_SCRIPT") or _CFG.get("cred_script", "")
 
 
 def cred_secret(name):
-    """从本机 DPAPI 凭据库取 secret；取不到返回空串。不打印。"""
-    if not Path(CREDMAN).is_file():
+    """从可选的凭据脚本取 secret；没配置或取不到就返回空串。不打印。"""
+    if not CREDMAN or not Path(CREDMAN).is_file():
         return ""
     r = subprocess.run(["pwsh", "-NoProfile", "-Command",
                         f'& "{CREDMAN}" get -Name {name} -Field secret'],
@@ -201,7 +215,8 @@ def cred_secret(name):
     return (r.stdout or "").strip() if r.returncode == 0 else ""
 
 
-LIFEOS_DEFAULT = r"E:\SLACK-AI\lifeOS"
+LIFEOS_DEFAULT = (os.environ.get("LIFEOS_REPO") or _CFG.get("lifeos_repo")
+                  or str(PKG.parent / "lifeOS"))
 
 
 def sync_lifeos(repo_path, do_push):
@@ -298,7 +313,7 @@ def sync_lifeos(repo_path, do_push):
     if do_push:
         r = run(["git", "-C", str(repo), "push", "origin", "HEAD:main"], check=False)
         if r.returncode != 0:
-            # 没配凭据助手时，从本机凭据库取（token 不进命令行输出、不落盘）
+            # git 凭据助手没配时，用可选的凭据脚本取（token 不进输出、不落盘）
             tok = cred_secret(CRED_NAME)
             if not tok:
                 out2 = ((r.stdout or "") + (r.stderr or "")).strip()
