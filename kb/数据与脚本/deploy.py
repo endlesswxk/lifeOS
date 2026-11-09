@@ -31,9 +31,25 @@ PKG = ROOT.parent
 PY = sys.executable
 
 
-def run(cmd, cwd=PKG, check=True, capture=True):
+# 任何 git 子进程都不许拉登录窗：没凭据就直接失败，而不是弹窗等人点。
+NO_PROMPT = {
+    "GIT_TERMINAL_PROMPT": "0", "GIT_ASKPASS": "", "SSH_ASKPASS": "",
+    "GIT_CONFIG_COUNT": "1",                 # 让子进程不调用系统里的 credential.helper
+    "GIT_CONFIG_KEY_0": "credential.helper",
+    "GIT_CONFIG_VALUE_0": "",
+}
+
+
+def _env(extra=None):
+    e = dict(os.environ)
+    e.update(NO_PROMPT)
+    e.update(extra or {})
+    return e
+
+
+def run(cmd, cwd=PKG, check=True, capture=True, env=None):
     r = subprocess.run(cmd, cwd=str(cwd), capture_output=capture,
-                       encoding="utf-8", errors="replace")
+                       encoding="utf-8", errors="replace", env=_env(env))
     if check and r.returncode != 0:
         out = (r.stdout or "") + (r.stderr or "")
         raise SystemExit(f"✘ 失败：{' '.join(str(c) for c in cmd)}\n{out.strip()[:1500]}")
@@ -228,8 +244,17 @@ def sync_lifeos(repo_path, do_push):
         raise SystemExit(f"✘ 不是 git 仓库：{repo}\n  先 git clone https://github.com/endlesswxk/lifeOS.git {repo}")
 
     step(f"同步到 lifeOS：{repo}")
-    pull = run(["git", "-C", str(repo), "pull", "--ff-only"], check=False)
-    print("  " + (pull.stdout or pull.stderr or "").strip()[:200])
+    url0 = run(["git", "-C", str(repo), "remote", "get-url", "origin"]).stdout.strip()
+    tok0 = cred_secret(CRED_NAME)
+    if tok0 and url0.startswith("https://"):
+        user0 = _CFG.get("git_user", "endlesswxk")
+        pull = run(["git", "-C", str(repo), "pull", "--ff-only",
+                    re.sub(r"^https://", f"https://{user0}:{tok0}@", url0)], check=False)
+        pull_msg = (((pull.stdout or "") + (pull.stderr or "")).replace(tok0, "***")).strip()
+    else:
+        pull = run(["git", "-C", str(repo), "pull", "--ff-only"], check=False)
+        pull_msg = ((pull.stdout or "") + (pull.stderr or "")).strip()
+    print("  " + pull_msg[:200])
 
     # 1) kb/ = 本包的全部跟踪文件（跳过 .github，workflow 只认仓库根）
     out = run(["git", "-C", str(PKG), "-c", "core.quotepath=false", "ls-files", "-z"]).stdout
@@ -311,23 +336,21 @@ def sync_lifeos(repo_path, do_push):
         print(f"  已提交 {n} 个文件")
 
     if do_push:
-        r = run(["git", "-C", str(repo), "push", "origin", "HEAD:main"], check=False)
+        url = run(["git", "-C", str(repo), "remote", "get-url", "origin"]).stdout.strip()
+        tok = cred_secret(CRED_NAME)
+        if tok and url.startswith("https://"):
+            user = _CFG.get("git_user", "endlesswxk")
+            auth = re.sub(r"^https://", f"https://{user}:{tok}@", url)   # 直接带 token，不弹窗
+            r = run(["git", "-C", str(repo), "push", auth, "HEAD:main"], check=False)
+            out2 = (((r.stdout or "") + (r.stderr or "")).replace(tok, "***")).strip()
+        else:
+            r = run(["git", "-C", str(repo), "push", "origin", "HEAD:main"], check=False)
+            out2 = ((r.stdout or "") + (r.stderr or "")).strip()
         if r.returncode != 0:
-            # git 凭据助手没配时，用可选的凭据脚本取（token 不进输出、不落盘）
-            tok = cred_secret(CRED_NAME)
-            if not tok:
-                out2 = ((r.stdout or "") + (r.stderr or "")).strip()
-                raise SystemExit(
-                    "✘ 推送失败，且凭据库里没有 " + CRED_NAME + "：\n" + out2[:600] +
-                    "\n  先存一次：见 05-持续更新.md")
-            url = run(["git", "-C", str(repo), "remote", "get-url", "origin"]).stdout.strip()
-            if not url.startswith("https://"):
-                raise SystemExit(f"✘ remote 不是 https，无法用库里的 token：{url}")
-            auth = re.sub(r"^https://", f"https://endlesswxk:{tok}@", url)
-            r = run(["git", "-C", str(repo), "-c", "credential.helper=", "push", auth, "HEAD:main"], check=False)
-            safe = ((r.stdout or "") + (r.stderr or "")).replace(tok, "***").strip()
-            if r.returncode != 0:
-                raise SystemExit("✘ 推送失败：\n" + safe[:800])
+            raise SystemExit(
+                "✘ 推送失败（没有可用凭据）：\n" + out2[:600] +
+                "\n  在 数据与脚本/.local.json 里配 cred_name + cred_script，"
+                "或先配一次 git 凭据助手（见 05-持续更新.md）")
         print("  已推送 → https://github.com/endlesswxk/lifeOS")
     else:
         print("  提示：加 --push 才会推送")
