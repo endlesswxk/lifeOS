@@ -5,19 +5,19 @@
 
 检查项：
   1. 目录与关键文件是否齐全
-  2. cards.json 结构（数量 / 唯一 id / 必填字段 / 层级 / related 指向）
-  3. 知识库/cards/*.md 与 cards.json 是否一一对应，卡片是否含必需小节
-  4. 8 个整包是否存在
-  5. 00-索引.md 里的链接是否都能打开
-  6. index.json 是否与 cards.json 同步
-  7. hindsight_payload.jsonl 是否合法、条数是否正确、标题是否重复
-  8. 一页纸 PDF 是否仍是 1 页
-  9. checklist.json 条数与 harm 字段
- 10. search.py 能否正常跑一次检索
- 11. 检索站 site/index.html 内嵌卡数是否同步、是否完全自包含
- 12. 02-引用与来源.md 是否逐卡溯源、是否含 DOI 与上游仓库
- 13. 文档互链（README ↔ 使用说明 / 自部署说明 / 引用 / 变更记录）
- 14. 上游原文是否齐（不随包分发；有则校验，无则提示补取）
+  2. cards.json 结构（数量 / 唯一 id / 必填字段 / 层级）
+  3. related 交叉引用是否都指向真实卡片
+  4. 知识库/cards/*.md 与 cards.json 是否一一对应，卡片是否含必需小节
+  5. 8 个整包是否存在
+  6. 00-索引.md 里的链接是否都能打开
+  7. index.json 是否与 cards.json 同步
+  8. checklist.json 条数与 harm 字段
+  9. search.py 能否正常跑一次检索
+ 10. 检索站 site/index.html 内嵌卡数是否同步、是否完全自包含
+ 11. 02-引用与来源.md 是否逐卡溯源、是否含 DOI 与上游仓库
+ 12. 文档互链（README ↔ 使用说明 / 自部署说明 / 引用 / 变更记录）
+ 13. 上游原文是否齐（不随包分发；有则校验，无则提示补取）
+ 14. app 清单同步（app 里的 58 条 == checklist.json 生成结果）
 
 全部通过退出码 0；有失败退出码 1，并列出失败项。
 """
@@ -45,7 +45,7 @@ def check(name, fn):
 
 
 # ---------------------------------------------------------------- 1 结构
-REQUIRED_DIRS = ["一页纸清单", "知识库", "知识库/cards", "导入-Hindsight", "数据与脚本",
+REQUIRED_DIRS = ["知识库", "知识库/cards", "数据与脚本",
                  "site", ".github/workflows"]
 REQUIRED_FILES = [
     "02-引用与来源.md",
@@ -57,13 +57,8 @@ REQUIRED_FILES = [
     "LICENSE-内容-CC-BY-4.0.md",
     ".gitignore",
     ".github/workflows/selfcheck.yml",
-    "一页纸清单/个人健康检查清单.pdf",
-    "一页纸清单/个人健康检查清单.md",
-    "一页纸清单/个人健康检查清单.html",
     "知识库/00-索引.md",
     "知识库/index.json",
-    "导入-Hindsight/IMPORT-to-hindsight.md",
-    "导入-Hindsight/hindsight_payload.jsonl",
     "site/index.html",
     "数据与脚本/cards.json",
     "数据与脚本/checklist.json",
@@ -184,36 +179,7 @@ def t_index_json():
     return f"{data['count']} 条，path 全部存在"
 
 
-# ---------------------------------------------------------------- 7 payload
-def t_payload():
-    path = PKG / "导入-Hindsight" / "hindsight_payload.jsonl"
-    rows = []
-    for i, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
-        if not line.strip():
-            continue
-        try:
-            rows.append(json.loads(line))
-        except json.JSONDecodeError as e:
-            raise AssertionError(f"第 {i} 行不是合法 JSON：{e}")
-    assert len(rows) == 74, f"共 {len(rows)} 行，期望 74（8 整包 + 66 卡）"
-    bad = [i for i, r in enumerate(rows, 1) if not (r.get("title") and r.get("content"))]
-    assert not bad, f"{len(bad)} 行缺 title/content"
-    titles = [r["title"] for r in rows]
-    dup = {t for t in titles if titles.count(t) > 1}
-    assert not dup, f"重复标题：{sorted(dup)[:3]}"
-    return f"{len(rows)} 行，无重复标题"
-
-
-# ---------------------------------------------------------------- 8 PDF 页数
-def t_pdf_pages():
-    pdf = PKG / "一页纸清单" / "个人健康检查清单.pdf"
-    raw = pdf.read_bytes().decode("latin-1")
-    pages = len(re.findall(r"/Type\s*/Page[^s]", raw))
-    assert pages == 1, f"PDF 是 {pages} 页，期望 1 页"
-    return "1 页"
-
-
-# ---------------------------------------------------------------- 9 checklist
+# ---------------------------------------------------------------- 7 checklist
 def t_checklist():
     data = json.loads((ROOT / "checklist.json").read_text(encoding="utf-8"))
     items = [i for s in data["sections"] for i in s["items"]] + data["donts"]["items"]
@@ -223,7 +189,7 @@ def t_checklist():
     return f"{len(items)} 条，均含危害"
 
 
-# ---------------------------------------------------------------- 10 search
+# ---------------------------------------------------------------- 8 search
 def t_search():
     py = sys.executable
     env_line = subprocess.run(
@@ -350,9 +316,7 @@ def main():
         ("整包齐全", t_bundles),
         ("索引链接", t_index_links),
         ("index.json 同步", t_index_json),
-        ("导入载荷", t_payload),
-        ("PDF 页数", t_pdf_pages),
-        ("一页纸清单", t_checklist),
+        ("清单条目", t_checklist),
         ("检索脚本", t_search),
         ("检索站", t_site),
         ("引用溯源", t_refs),

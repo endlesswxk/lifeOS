@@ -3,7 +3,6 @@
 本包的**文本内容**按 [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/legalcode)
 （CC BY 4.0）发布，覆盖范围：
 
-- `一页纸清单/*.md`、`一页纸清单/*.html`
 - `知识库/**/*.md`（66 张知识卡与 8 个整包）
 - `02-引用与来源.md`、
   `03-使用说明.md`、`04-自部署说明.md`

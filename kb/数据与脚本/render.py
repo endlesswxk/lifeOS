@@ -247,6 +247,7 @@ def render_html() -> str:
 
 
 if __name__ == "__main__":
+    OUT_DIR.mkdir(parents=True, exist_ok=True)   # 目录不入库，需要时现生成
     OUT_MD.write_text(render_md(), encoding="utf-8")
     OUT_HTML.write_text(render_html(), encoding="utf-8")
     total = sum(len(s["items"]) for s in DATA["sections"]) + len(DATA["donts"]["items"])

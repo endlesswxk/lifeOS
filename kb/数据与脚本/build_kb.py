@@ -199,18 +199,20 @@ def build():
     )
 
     # payload for an importer on ANOTHER machine: one JSON object per line
-    with (PAYLOAD_DIR / "hindsight_payload.jsonl").open("w", encoding="utf-8") as f:
-        for lv, cs in bundles.items():
-            title = f"个人健康知识库 · {LEVEL_FILE[lv].split('-', 1)[1]}"
-            f.write(
-                json.dumps({"title": title, "content": bundle_md(lv, cs)}, ensure_ascii=False)
-                + "\n"
-            )
-        for c in CARDS:
-            f.write(
-                json.dumps({"title": f"健康卡：{c['title']}", "content": card_md(c)}, ensure_ascii=False)
-                + "\n"
-            )
+    # 记忆载荷（导入其它 AI 记忆库用）改成可选：目录不存在就跳过，不入库
+    if PAYLOAD_DIR.is_dir():
+        with (PAYLOAD_DIR / "hindsight_payload.jsonl").open("w", encoding="utf-8") as f:
+            for lv, cs in bundles.items():
+                title = f"个人健康知识库 · {LEVEL_FILE[lv].split('-', 1)[1]}"
+                f.write(
+                    json.dumps({"title": title, "content": bundle_md(lv, cs)}, ensure_ascii=False)
+                    + "\n"
+                )
+            for c in CARDS:
+                f.write(
+                    json.dumps({"title": f"健康卡：{c['title']}", "content": card_md(c)}, ensure_ascii=False)
+                    + "\n"
+                )
 
     print(f"cards={len(CARDS)}  bundles={len(bundles)}")
     print("知识库/ ->", KB)

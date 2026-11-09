@@ -32,5 +32,8 @@ print-preview/
 # 原因是 HumanSystemOptimization 没有许可证，再分发其原文有版权风险。
 原始资料/
 
-# 说明：交付物（知识库/、一页纸清单/、site/、导入-Hindsight/、02-引用与来源.md）
-# 都是成果的一部分，必须提交，不要忽略。
+# 说明：交付物（知识库/、site/、02-引用与来源.md 等）是成果的一部分，必须提交。
+# 一页纸清单/ 与 导入-Hindsight/ 已移出仓库（站点与 app 都不依赖），
+# 需要打印版时本地跑 `python 数据与脚本/render.py` 生成，产物不入库。
+一页纸清单/
+导入-Hindsight/
