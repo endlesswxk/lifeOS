@@ -81,3 +81,6 @@ python 数据与脚本/deploy.py --sync-lifeos --push   # 重建 → 自检 → 
   以及 NHS / CDC / WHO 等公开指南。各卡片的出处与 DOI 见 [kb/02-引用与来源.md](kb/02-引用与来源.md)。
 - 上游 `原始资料/`（书籍正文与台账）**不随本仓库分发**（版权与时效），需要时用
   `kb/数据与脚本/fetch_sources.py` 现取。
+- 若你是权利人，认为本仓库某部分内容侵犯了你的权益，请在
+  [Issues](https://github.com/endlesswxk/lifeOS/issues) 提出，我们会尽快删除或改写
+  （处理承诺见 [kb/LICENSE-内容-CC-BY-4.0.md](kb/LICENSE-内容-CC-BY-4.0.md) 的「侵权通知」一节）。

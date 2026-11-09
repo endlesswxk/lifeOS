@@ -223,7 +223,8 @@ def build():
     L.append(
         "| HumanSystemOptimization | **没有 LICENSE 文件** | 默认保留所有权利。"
         "本包**不整段复制**其文字，只做事实引用与改写；若权利人提出要求，"
-        f"删除 `source` 里带 `HSO` 的 {len(hso_ids)} 张卡（{hso_list}）即可 |"
+        f"删除 `source` 里带 `HSO` 的 {len(hso_ids)} 张卡（{hso_list}）即可"
+        "（通知渠道见 `LICENSE-内容-CC-BY-4.0.md` 的「侵权通知」） |"
     )
     L.append("")
     L.append("> 结论：别人的代码/文本不能因为「放在 GitHub 上」就当成免费。`HumanSystemOptimization` 这一条是最容易被忽略的。")
