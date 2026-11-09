@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """成果包自检：一条命令跑完所有一致性校验。
 
     python 数据与脚本/自检.py
@@ -82,6 +82,14 @@ REQUIRED_FILES = [
 def t_structure():
     missing = [d for d in REQUIRED_DIRS if not (PKG / d).is_dir()]
     missing += [f for f in REQUIRED_FILES if not (PKG / f).is_file()]
+    # 嵌在别的仓库里（如 lifeOS 的 kb/）时，workflow 必须放在那个仓库的根 .github/
+    # —— GitHub 只认仓库根，所以这里不要求 kb/.github/ 存在
+    if missing and any(m.startswith(".github/") for m in missing):
+        for base in (PKG.parent, PKG.parent.parent):
+            wf = base / ".github" / "workflows"
+            if wf.is_dir() and any(wf.glob("*.y*ml")):
+                missing = [m for m in missing if not m.startswith(".github/")]
+                break
     assert not missing, f"缺 {len(missing)} 项：{missing}"
     return f"{len(REQUIRED_DIRS)} 目录 / {len(REQUIRED_FILES)} 文件"
 
