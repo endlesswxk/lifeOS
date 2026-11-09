@@ -1,6 +1,6 @@
 /* 生活系统 LifeOS — Service Worker
    改版本号即可让所有设备拉取新版本 */
-const CACHE = 'lifeos-v1';
+const CACHE = 'lifeos-v2';
 const ASSETS = [
   './',
   './index.html',
